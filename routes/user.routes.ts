@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { check } from 'express-validator';
 import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controller/user.controller';
 
 
@@ -144,8 +143,6 @@ router.delete('/:id', [], deleteUser);
  */
 router.get('/:id', [], getUser);
 
-
-
 //get users
 /**
  *@swagger
@@ -153,11 +150,11 @@ router.get('/:id', [], getUser);
  *  get:
  *      security:
  *        - ApiKeyAuth: [Authorization]
- *      summary: get activated users
+ *      summary: get users
  *      tags: [User]
  *      responses:
  *          200:
- *              description: obtained activated users!
+ *              description: obtained users!
 
  *          401:
  *              description: invalid token
