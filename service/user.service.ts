@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user';
+import { v4 as uuidv4 } from 'uuid';
 
 export const listService = async () => {
 
@@ -16,7 +17,7 @@ export const listByIdService = async (id: string) => {
 export const createService = async (userdata: { name: string, email: string, password: string }) => {
 
     const { name, email, password } = userdata;
-    const user = new User({ name, email, password });
+    const user = new User({ name, email, password, id: uuidv4() });
 
     //Encrypt password
     const salt = bcryptjs.genSaltSync();

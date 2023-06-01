@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controller/user.controller';
 import { check } from 'express-validator';
 import { validateFields, validateJWT } from '../middlewares';
 import { UserExistsById, emailExists } from '../helpers';
+import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controllers/user.controller';
 
 
-export const router = Router();
+const router = Router();
 
 
 
@@ -25,19 +25,19 @@ export const router = Router();
  *          name:
  *              type: string
  *              description: the user name
- *          correo:
+ *          email:
  *              type: string
- *              description: the user correo
+ *              description: the user email
  *          password:
  *              type: string
  *              description: the user password
  *      required:
  *         - name
- *         - correo
+ *         - email
  *         - password
  *      example:
  *         name: Hernan
- *         correo: prueba123@gmail.com 
+ *         email: prueba123@gmail.com 
  *         password: a123456 
  */
 
@@ -62,8 +62,8 @@ export const router = Router();
 router.post('/', [
     check('name', 'The name is required').not().isEmpty(),
     check('password', 'The password must be more than 6 letters').isLength({ min: 6 }),
-    check('correo', 'The email is not valid').isEmail(),
-    check('correo').custom(emailExists),
+    check('email', 'The email is not valid').isEmail(),
+    check('email').custom(emailExists),
     validateFields
 ], createUser);
 
@@ -185,3 +185,6 @@ router.get('/', [
     validateJWT,
     validateFields
 ], getUsers);
+
+
+export default router;
