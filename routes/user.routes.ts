@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controller/user.controller';
+import { check } from 'express-validator';
+import { validateFields } from '../middlewares';
 
 
 export const router = Router();
@@ -56,7 +58,12 @@ export const router = Router();
  *          200:
  *              description: new user created!
  */
-router.post('/', [], createUser);
+router.post('/', [
+    check('name', 'The name is required').not().isEmpty(),
+    check('password', 'The password must be more than 6 letters').isLength({ min: 6 }),
+    check('correo', 'The email is not valid').isEmail(),
+    validateFields
+], createUser);
 
 
 // update user
