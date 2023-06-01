@@ -1,8 +1,9 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import path from "path";
-import { router } from '../routes/user.routes';
 import { dbConnection } from '../database/config';
+import UserRoute from '../routes/user.routes';
+import AuthRoute from '../routes/auth.routes';
 
 //swagger
 import swaggerUI from "swagger-ui-express";
@@ -27,12 +28,13 @@ const swaggerSpec = {
 export class Server {
     private app: Application;
     private readonly port: string = process.env.PORT || '12001';
-    private readonly paths: { users: string, swagger: string };
+    private readonly paths: { users: string, auth: string, swagger: string };
 
 
     constructor() {
         this.app = express();
         this.paths = {
+            auth: "/authorization",
             users: "/users",
             swagger: "/api-doc"
         };
@@ -65,14 +67,15 @@ export class Server {
     }
 
     private routes(): void {
-        this.app.use(this.paths.users, router);
+        this.app.use(this.paths.users, UserRoute);
+        this.app.use(this.paths.auth, AuthRoute);
         this.app.use(this.paths.swagger, swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)));
 
     }
 
     public listen(): void {
         console.log(process.env.PORT);
-        
+
         this.app.listen(this.port, () => {
             console.log("Server running on the port", this.port);
         });

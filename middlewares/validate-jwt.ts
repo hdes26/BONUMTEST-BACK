@@ -16,7 +16,7 @@ export const validateJWT = async (req: Request | any, res: Response, next: NextF
     try {
 
         interface DecodedToken {
-            _id: string;
+            id: string;
             name: string;
             email: string;
             iat: number,
@@ -24,14 +24,15 @@ export const validateJWT = async (req: Request | any, res: Response, next: NextF
         }
 
         let decodedToken: DecodedToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY!) as DecodedToken;
-        const { _id, exp } = decodedToken;
+
+        const { id, exp } = decodedToken;
 
         const currentTime = Math.floor(Date.now() / 1000); // We get the current time in seconds
         if (currentTime > exp) throw new Error('token expired');
 
 
 
-        const user = await User.findById(_id);
+        const user = await User.findOne({ id });
 
         if (!user) {
             return res.status(401).json({
