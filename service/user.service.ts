@@ -2,15 +2,10 @@ import bcryptjs from 'bcryptjs';
 import User from '../models/user';
 import { v4 as uuidv4 } from 'uuid';
 
-export const listService = async () => {
 
-    const users = await User.find({ active: true });
-    return users;
-
-}
 export const listByIdService = async (id: string) => {
 
-    const user = await User.findById(id).where({ active: true });
+    const user = await User.findOne().where({ active: true, id });
     return user;
 
 }
@@ -29,13 +24,13 @@ export const createService = async (userdata: { name: string, email: string, pas
 
 export const updateService = async (id: string, userdata: { name: string }) => {
 
-    const user = await User.findByIdAndUpdate(id, { userdata });
+    const user = await User.findOne().where({ id }).updateOne(userdata);
     return user;
 
 }
 
 
 export const removeService = async (id: string) => {
-    const user = await User.findByIdAndRemove(id);
+    const user = await User.findOne().where({ id }).updateOne({ active: false });
     return user;
 }
