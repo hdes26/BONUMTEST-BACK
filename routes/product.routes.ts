@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateFields, validateJWT } from '../middlewares';
-import { UserExistsById, emailExists } from '../helpers';
+import { ProductExistsById, UserExistsById } from '../helpers';
 import { createProduct, deleteProduct, getProduct, getProductsByUser, updateProduct } from '../controllers/product.controller';
 
 
@@ -64,7 +64,13 @@ const router = Router();
  *          200:
  *              description: new product created!
  */
-router.post('/', [], createProduct);
+router.post('/', [
+    check('name', 'The name is required').not().isEmpty(),
+    check('description', 'The description is required').not().isEmpty(),
+    check('image', 'The image is required').not().isEmpty(),
+    check('creator', 'The creator is required').not().isEmpty().isUUID(),
+    validateFields
+], createProduct);
 
 
 // update product
@@ -97,7 +103,12 @@ router.post('/', [], createProduct);
  *          401:
  *              description: invalid token
  */
-router.put('/:id', [], updateProduct);
+router.put('/:id', [
+    validateJWT,
+    check('id', 'Not a valid id').isUUID(),
+    check('id').custom(ProductExistsById),
+    validateFields
+], updateProduct);
 
 
 //delete product
@@ -123,7 +134,11 @@ router.put('/:id', [], updateProduct);
  *          401:
  *              description: invalid token
  */
-router.delete('/:id', [], deleteProduct);
+router.delete('/:id', [
+    validateJWT,
+    check('id', 'Not a valid id').isUUID(),
+    check('id').custom(ProductExistsById),
+], deleteProduct);
 
 
 //get product
@@ -149,7 +164,11 @@ router.delete('/:id', [], deleteProduct);
  *          401:
  *              description: invalid token
  */
-router.get('/:id', [], getProduct);
+router.get('/:id', [
+    validateJWT,
+    check('id', 'Not a valid id').isUUID(),
+    check('id').custom(ProductExistsById),
+], getProduct);
 
 //get products by User
 /**
@@ -174,7 +193,11 @@ router.get('/:id', [], getProduct);
  *          401:
  *              description: invalid token
  */
-router.get('/byuser/:userId', [], getProductsByUser);
+router.get('/byuser/:userId', [
+    validateJWT,
+    check('userId', 'Not a valid id').isUUID(),
+    check('userId').custom(UserExistsById),
+], getProductsByUser);
 
 
 export default router;

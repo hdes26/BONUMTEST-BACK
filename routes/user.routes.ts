@@ -100,7 +100,7 @@ router.post('/', [
  */
 router.put('/:id', [
     validateJWT,
-    check('id', 'Not a valid id').isMongoId(),
+    check('id', 'Not a valid id').isUUID(),
     check('id').custom(UserExistsById),
     validateFields
 ], updateUser);
@@ -131,7 +131,7 @@ router.put('/:id', [
  */
 router.delete('/:id', [
     validateJWT,
-    check('id', 'Not a valid id').isMongoId(),
+    check('id', 'Not a valid id').isUUID(),
     check('id').custom(UserExistsById),
 ], deleteUser);
 
@@ -161,7 +161,7 @@ router.delete('/:id', [
  */
 router.get('/:id', [
     validateJWT,
-    check('id', 'Not a valid id').isMongoId(),
+    check('id', 'Not a valid id').isUUID(),
     check('id').custom(UserExistsById),
 ], getUser);
 
