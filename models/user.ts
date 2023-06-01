@@ -4,10 +4,10 @@ interface IUser {
     name: string;
     email: string;
     password: string;
-    active:boolean;
+    active: boolean;
 }
 
-const UserSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser>({
     name: {
         type: String,
         required: [true, 'Name is required']
@@ -28,11 +28,6 @@ const UserSchema = new Schema<IUser>({
 });
 
 
+const User = model<IUser>('User', userSchema);
 
-UserSchema.methods.toJSON = function () {
-    const { __v, password, _id, ...usuario } = this.toObject();
-    usuario.uid = _id;
-    return usuario;
-}
-
-module.exports = model('User', UserSchema);
+export default User;
