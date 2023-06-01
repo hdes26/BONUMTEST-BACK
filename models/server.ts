@@ -4,6 +4,7 @@ import path from "path";
 import { dbConnection } from '../database/config';
 import UserRoute from '../routes/user.routes';
 import AuthRoute from '../routes/auth.routes';
+import ProductRoute from '../routes/product.routes';
 
 //swagger
 import swaggerUI from "swagger-ui-express";
@@ -28,7 +29,7 @@ const swaggerSpec = {
 export class Server {
     private app: Application;
     private readonly port: string = process.env.PORT || '12001';
-    private readonly paths: { users: string, auth: string, swagger: string };
+    private readonly paths: { users: string, auth: string, products: string, swagger: string };
 
 
     constructor() {
@@ -36,6 +37,7 @@ export class Server {
         this.paths = {
             auth: "/authorization",
             users: "/users",
+            products: "/products",
             swagger: "/api-doc"
         };
 
@@ -69,6 +71,7 @@ export class Server {
     private routes(): void {
         this.app.use(this.paths.users, UserRoute);
         this.app.use(this.paths.auth, AuthRoute);
+        this.app.use(this.paths.products, ProductRoute);
         this.app.use(this.paths.swagger, swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)));
 
     }

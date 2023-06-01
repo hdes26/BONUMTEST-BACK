@@ -1,18 +1,8 @@
 import { Response, Request } from "express";
-import { createService, listByIdService, listService, removeService, updateService } from "../service/user.service";
+import { createService, listByIdService, removeService, updateService } from "../service/user.service";
 
 
 
-
-export const getUsers = async (req: Request, res: Response) => {
-    try {
-        let users = await listService();
-        res.json(users);
-    } catch (error) {
-        console.log(error);
-        res.status(404).json({ msg: error });
-    }
-};
 
 export const getUser = async (req: Request, res: Response) => {
     try {

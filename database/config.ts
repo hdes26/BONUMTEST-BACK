@@ -5,7 +5,7 @@ export const dbConnection = async () => {
 
     try {
 
-        await mongoose.connect('mongodb://admin:password@localhost:27017/?authMechanism=DEFAULT', {});
+        await mongoose.connect(process.env.MONGOURI!, {});
         console.log('Database online');
 
     } catch (error) {

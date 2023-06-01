@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateFields, validateJWT } from '../middlewares';
 import { UserExistsById, emailExists } from '../helpers';
-import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controllers/user.controller';
+import { createUser, deleteUser, getUser, updateUser } from '../controllers/user.controller';
 
 
 const router = Router();
@@ -83,7 +83,7 @@ router.post('/', [
  *            schema:
  *              type: string
  *            required: true
- *            description: uid 
+ *            description: id 
  *      requestBody:
  *          requerid: true
  *          content:
@@ -100,7 +100,7 @@ router.post('/', [
  */
 router.put('/:id', [
     validateJWT,
-    check('id', 'Not a valid id').isMongoId(),
+    check('id', 'Not a valid id').isUUID(),
     check('id').custom(UserExistsById),
     validateFields
 ], updateUser);
@@ -121,7 +121,7 @@ router.put('/:id', [
  *            schema:
  *              type: string
  *            required: true
- *            description: uid 
+ *            description: id 
  *      responses:
  *          200:
  *              description: deleted user!
@@ -131,7 +131,7 @@ router.put('/:id', [
  */
 router.delete('/:id', [
     validateJWT,
-    check('id', 'Not a valid id').isMongoId(),
+    check('id', 'Not a valid id').isUUID(),
     check('id').custom(UserExistsById),
 ], deleteUser);
 
@@ -151,7 +151,7 @@ router.delete('/:id', [
  *            schema:
  *              type: string
  *            required: true
- *            description: uid 
+ *            description: id 
  *      responses:
  *          200:
  *              description: obtained user!
@@ -161,30 +161,10 @@ router.delete('/:id', [
  */
 router.get('/:id', [
     validateJWT,
-    check('id', 'Not a valid id').isMongoId(),
+    check('id', 'Not a valid id').isUUID(),
     check('id').custom(UserExistsById),
 ], getUser);
 
-//get users
-/**
- *@swagger
- * /users/:
- *  get:
- *      security:
- *        - ApiKeyAuth: [Authorization]
- *      summary: get users
- *      tags: [User]
- *      responses:
- *          200:
- *              description: obtained users!
-
- *          401:
- *              description: invalid token
- */
-router.get('/', [
-    validateJWT,
-    validateFields
-], getUsers);
 
 
 export default router;
