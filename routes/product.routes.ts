@@ -51,6 +51,8 @@ const router = Router();
  *@swagger
  * /products:
  *  post:
+ *      security:
+ *      - ApiKeyAuth: [Authorization]
  *      summary: create a new product
  *      tags: [Product]
  *      requestBody:
