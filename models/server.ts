@@ -36,6 +36,16 @@ export class Server {
         };
 
 
+import { dbConnection } from '../database/config';
+
+export class Server {
+    private app: Application;
+    private readonly port: string = process.env.PORT || '12001';
+
+    constructor() {
+        this.app = express();
+
+
         //Connect to dadatabase
         this.dbConnect();
 
@@ -47,7 +57,7 @@ export class Server {
     }
 
     private async dbConnect(): Promise<void> {
-    
+        await dbConnection();
     }
 
     private middlewares(): void {
