@@ -65,6 +65,7 @@ const router = Router();
  *              description: new product created!
  */
 router.post('/', [
+    validateJWT,
     check('name', 'The name is required').not().isEmpty(),
     check('description', 'The description is required').not().isEmpty(),
     check('image', 'The image is required').not().isEmpty(),
