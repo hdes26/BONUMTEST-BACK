@@ -6,9 +6,7 @@ import { createService, listByIdService, listByUserService, removeService, updat
 
 export const getProductsByUser = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params;
-        console.log(userId);
-        
+        const { userId } = req.params;        
         let products = await listByUserService(userId);
         res.json(products);
     } catch (error) {

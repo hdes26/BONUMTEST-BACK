@@ -4,7 +4,7 @@ import User from '../models/user';
 
 
 export const listByUserService = async (userId: string) => {
-    const creatorUser = await User.findOne().where({ id: userId, active: true });    
+    const creatorUser = await User.findOne().where({ id: userId, active: true });
     const products = await Product.find().where({ active: true, creator: creatorUser });
     return products;
 
@@ -29,8 +29,8 @@ export const createService = async (productData: { name: string, description: st
 }
 
 export const updateService = async (id: string, productData: { name: string, description: string, image: string }) => {
-
-    const product = await Product.findOne().where({ id }).updateOne(productData);
+    const { name, description, image } = productData;
+    const product = await Product.findOne().where({ id }).updateOne({ name, description, image });
     return product;
 
 }

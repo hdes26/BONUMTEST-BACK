@@ -38,7 +38,6 @@ const router = Router();
  *         - name
  *         - description
  *         - image
- *         - creator
  *      example:
  *         name: Perfume Eros
  *         description: Perfume marca versace
