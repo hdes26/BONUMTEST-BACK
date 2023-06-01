@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import { createUser, deleteUser, getUser, getUsers, updateUser } from '../controller/user.controller';
+import { check } from 'express-validator';
+import { validateFields, validateJWT } from '../middlewares';
+import { UserExistsById, emailExists } from '../helpers';
 
 
 export const router = Router();
@@ -56,7 +59,13 @@ export const router = Router();
  *          200:
  *              description: new user created!
  */
-router.post('/', [], createUser);
+router.post('/', [
+    check('name', 'The name is required').not().isEmpty(),
+    check('password', 'The password must be more than 6 letters').isLength({ min: 6 }),
+    check('correo', 'The email is not valid').isEmail(),
+    check('correo').custom(emailExists),
+    validateFields
+], createUser);
 
 
 // update user
@@ -89,7 +98,12 @@ router.post('/', [], createUser);
  *          401:
  *              description: invalid token
  */
-router.put('/:id', [], updateUser);
+router.put('/:id', [
+    validateJWT,
+    check('id', 'Not a valid id').isMongoId(),
+    check('id').custom(UserExistsById),
+    validateFields
+], updateUser);
 
 
 //delete user
@@ -115,7 +129,11 @@ router.put('/:id', [], updateUser);
  *          401:
  *              description: invalid token
  */
-router.delete('/:id', [], deleteUser);
+router.delete('/:id', [
+    validateJWT,
+    check('id', 'Not a valid id').isMongoId(),
+    check('id').custom(UserExistsById),
+], deleteUser);
 
 
 //get user
@@ -141,7 +159,11 @@ router.delete('/:id', [], deleteUser);
  *          401:
  *              description: invalid token
  */
-router.get('/:id', [], getUser);
+router.get('/:id', [
+    validateJWT,
+    check('id', 'Not a valid id').isMongoId(),
+    check('id').custom(UserExistsById),
+], getUser);
 
 //get users
 /**
@@ -159,4 +181,7 @@ router.get('/:id', [], getUser);
  *          401:
  *              description: invalid token
  */
-router.get('/', [], getUsers);
+router.get('/', [
+    validateJWT,
+    validateFields
+], getUsers);
