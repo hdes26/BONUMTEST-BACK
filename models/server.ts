@@ -1,29 +1,28 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+import { dbConnection } from '../database/config';
 
 export class Server {
     private app: Application;
-    private readonly port: string;
+    private readonly port: string = process.env.PORT || '12001';
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || '12001';
 
-        
         //Connect to dadatabase
-        //this.dbConnect();
-        
+        this.dbConnect();
+
         //Middlewares
         this.middlewares();
-        
+
         //Routes
         this.routes();
     }
-    
+
     private async dbConnect(): Promise<void> {
-        
+        await dbConnection();
     }
-    
+
     private middlewares(): void {
         //CORS
         this.app.use(cors());
@@ -33,7 +32,7 @@ export class Server {
 
         //Public folder
         this.app.use(express.static('public'))
-        
+
     }
 
     private routes(): void {
