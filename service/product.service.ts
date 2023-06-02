@@ -27,15 +27,12 @@ export const createService = async (productData: { name: string, description: st
     return await product.save();
 
 }
-
 export const updateService = async (id: string, productData: { name: string, description: string, image: string }) => {
     const { name, description, image } = productData;
     const product = await Product.findOne().where({ id }).updateOne({ name, description, image });
     return product;
 
 }
-
-
 export const removeService = async (id: string) => {
     const product = await Product.findOne().where({ id }).updateOne({ active: false });
     return product;

@@ -7,8 +7,7 @@ export const login = async (req: Request, res: Response) => {
     try {
         let login = await loginService(req.body);
         res.json(login);
-    } catch (error) {
-        console.log(error);
-        res.status(404).json({ msg: error });
+    } catch (error:any) {
+        res.status(404).json({ msg: error.message });
     }
 }
