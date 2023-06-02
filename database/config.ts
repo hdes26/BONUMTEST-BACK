@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 export const dbConnection = async () => {
 
     try {
-
         await mongoose.connect(process.env.MONGOURI!, {});
         console.log('Database online');
 
