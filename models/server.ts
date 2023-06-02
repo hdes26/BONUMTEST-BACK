@@ -20,6 +20,9 @@ const swaggerSpec = {
             {
                 url: `https://test-bonum.herokuapp.com/`
             },
+            {
+                url: `https://test-bonum.herokuapp.com/`
+            },
         ],
     },
     apis: [`${path.join(__dirname, "../routes/*.js")}`],
