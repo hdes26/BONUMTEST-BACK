@@ -18,7 +18,7 @@ const swaggerSpec = {
         },
         servers: [
             {
-                url: `http://localhost:12001`
+                url: `https://test-bonum.herokuapp.com/`
             },
         ],
     },
@@ -78,7 +78,6 @@ export class Server {
 
     public listen(): void {
         console.log(process.env.PORT);
-
         this.app.listen(this.port, () => {
             console.log("Server running on the port", this.port);
         });
