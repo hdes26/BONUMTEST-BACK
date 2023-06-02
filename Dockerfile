@@ -13,8 +13,14 @@ RUN npm install
 # Copy the project source code to the container
 COPY . .
 
+# Ejecuta el script de construcción
+RUN npm run build
+
+# Establece el directorio de trabajo en /app/dist
+WORKDIR /app/dist
+
 # Expose the port on which the Express.js application runs
 EXPOSE 12001
 
 # Command to start the application
-CMD [ "npm", "start" ]
+CMD [ "node", "app.js" ]
