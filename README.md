@@ -36,4 +36,4 @@ docker-compose up
 
 
 
-[Documentacion Swagger (local)](http://localhost:12001/api-doc/)
+[Documentacion Swagger](https://test-bonum.herokuapp.com/api-doc/)
