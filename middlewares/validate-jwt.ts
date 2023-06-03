@@ -23,7 +23,7 @@ export const validateJWT = async (req: Request | any, res: Response, next: NextF
             exp: number
         }
 
-        let decodedToken: DecodedToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY!) as DecodedToken;
+        let decodedToken: DecodedToken = jwt.verify(token, 'ASDJK13J21I0JIDAS') as DecodedToken;
 
         const { id, exp } = decodedToken;
 
