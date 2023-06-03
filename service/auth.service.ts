@@ -8,7 +8,7 @@ export const loginService = async (userdata: { email: string, password: string }
 
         const { email, password } = userdata;
         // Check if the email exists
-        const user = await User.findOne({ email });
+        const user = await User.findOne().where({ email });
         if (!user) {
             throw new Error("User / Incorrect password - email")
         }

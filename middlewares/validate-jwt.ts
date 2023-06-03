@@ -32,7 +32,7 @@ export const validateJWT = async (req: Request | any, res: Response, next: NextF
 
 
 
-        const user = await User.findOne({ id });
+        const user = await User.findOne().where({ id });
 
         if (!user) {
             return res.status(401).json({
